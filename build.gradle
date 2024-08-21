@@ -1,0 +1,67 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.2.8'
+    id 'io.spring.dependency-management' version '1.1.6'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Spring Boot Starter for Data JPA, includes Hibernate for ORM and database access
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    // MySQL Connector for database access
+    implementation 'mysql:mysql-connector-java:8.0.33'
+
+    // Spring Boot Starter for Web Services
+    implementation 'org.springframework.boot:spring-boot-starter-web-services'
+
+    // Spring Boot Starter for Web, includes REST APIs and web functionality
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // Spring Boot Starter for Security, includes Spring Security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    // Jackson Databind for JSON processing
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+
+    // Lombok for boilerplate code reduction (annotations for getters, setters, etc.)
+    implementation 'org.projectlombok:lombok:1.18.24'
+
+    // JSON Web Token library for authentication
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+    implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'
+    implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
+    // H2 Database for in-memory database usage (useful for testing)
+    runtimeOnly 'com.h2database:h2'
+
+    // Servlet API, ensure to use the correct version for compatibility
+    implementation 'jakarta.servlet:jakarta.servlet-api:5.0.0'
+
+    // JAXB API for XML binding (required for certain XML processing)
+    implementation 'javax.xml.bind:jaxb-api:2.3.1'
+
+    // Lombok annotation processor for compile-time annotation processing
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+
+    // Testing dependencies
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
