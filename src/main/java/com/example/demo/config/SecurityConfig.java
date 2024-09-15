@@ -117,7 +117,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/h2-console/**").permitAll()  // Allow access to H2 console
                         .requestMatchers("/api/auth/register").permitAll()  // Allow access to registration
-                        .requestMatchers("/api/auth/authenticate").permitAll()  // Allow access to authentication
+                        .requestMatchers("/api/auth/authenticate").permitAll()
+                       // Allow access to authentication
                         .anyRequest().authenticated())  // All other endpoints require authentication
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(jwtAuthenticationEntryPoint))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))  // Stateless sessions for JWT

@@ -49,6 +49,8 @@ dependencies {
 
     // Servlet API, ensure to use the correct version for compatibility
     implementation 'jakarta.servlet:jakarta.servlet-api:5.0.0'
+    implementation 'mysql:mysql-connector-java'
+
 
     // JAXB API for XML binding (required for certain XML processing)
     implementation 'javax.xml.bind:jaxb-api:2.3.1'
