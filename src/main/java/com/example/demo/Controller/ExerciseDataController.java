@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "https://project-production-aec2.up.railway.app")
 public class ExerciseDataController {
     @Autowired
     private ExerciseDataServices exerciseDataServices;

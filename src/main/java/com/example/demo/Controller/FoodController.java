@@ -3,6 +3,7 @@ package com.example.demo.Controller;
 import com.example.demo.Entity.FoodSearch;
 import com.example.demo.Services.FoodServices;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@CrossOrigin(origins = "https://project-production-aec2.up.railway.app")
 public class FoodController {
 
     @Autowired
