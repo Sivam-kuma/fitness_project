@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin(origins = "https://project-production-aec2.up.railway.app")
 @RequestMapping("/api/workouts")
 public class WorkoutController {
     @Autowired
