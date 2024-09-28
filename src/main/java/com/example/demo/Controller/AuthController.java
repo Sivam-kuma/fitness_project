@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@CrossOrigin(origins = "https://project-production-aec2.up.railway.app")
+@CrossOrigin(origins = "https://fitnessproject-production.up.railway.app")
 @RequestMapping("/api/auth")
 public class AuthController {
 

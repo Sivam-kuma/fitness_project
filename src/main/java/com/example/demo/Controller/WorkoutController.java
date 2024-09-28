@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "https://project-production-aec2.up.railway.app")
+@CrossOrigin(origins = "https://fitnessproject-production.up.railway.app")
 @RequestMapping("/api/workouts")
 public class WorkoutController {
     @Autowired
