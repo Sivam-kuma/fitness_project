@@ -2,7 +2,6 @@ package com.example.demo.Entity;
 
 import jakarta.persistence.*;
 
-
 @Entity
 @Table(name = "workouts")
 public class Workout {
@@ -11,23 +10,24 @@ public class Workout {
     private Long id;
 
     private double sessionCalories;
-    private double totalCalories = 0; // Initialize to 0
 
-    // Constructors, getters, and setters
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    // Constructors
 
     public Workout() {}
 
-    public Workout(double sessionCalories, double totalCalories) {
+    public Workout(double sessionCalories, User user) {
         this.sessionCalories = sessionCalories;
-        this.totalCalories = totalCalories;
+        this.user = user;
     }
+
+    // Getters and setters
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public double getSessionCalories() {
@@ -38,11 +38,11 @@ public class Workout {
         this.sessionCalories = sessionCalories;
     }
 
-    public double getTotalCalories() {
-        return totalCalories;
+    public User getUser() {
+        return user;
     }
 
-    public void setTotalCalories(double totalCalories) {
-        this.totalCalories = totalCalories;
+    public void setUser(User user) {
+        this.user = user;
     }
 }
