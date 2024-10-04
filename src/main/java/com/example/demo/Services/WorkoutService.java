@@ -21,9 +21,18 @@ public class WorkoutService {
      * @return The saved Workout entity.
      */
     public Workout saveWorkout(double sessionCalories, User user) {
+        // Validate the sessionCalories input
+        if (sessionCalories <= 0) {
+            throw new IllegalArgumentException("Session calories must be a positive value.");
+        }
+
+        // Create a new Workout instance
         Workout workout = new Workout(sessionCalories, user);
+
+        // Save the workout and return the saved entity
         return workoutRepository.save(workout);
     }
+
 
     /**
      * Retrieves the total calories burned by a specific user.

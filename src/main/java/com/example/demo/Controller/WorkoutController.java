@@ -32,15 +32,22 @@ public class WorkoutController {
     public ResponseEntity<Workout> addWorkout(@RequestBody Workout workout, Authentication authentication) {
         // Extract username from Authentication
         String username = authentication.getName();
+        System.out.println("Retrieved username from authentication: " + username); // Log the username
+
+        // Find user by username in the database
         User user = userRepository.findByUsername(username);
         if (user == null) {
-            return ResponseEntity.badRequest().build();
+            System.out.println("User not found in the database for username: " + username); // Log user not found
+            return ResponseEntity.badRequest().body(null); // Return error if user is not found
         }
+
+        System.out.println("User found: " + user.getUsername()); // Log the found user
 
         // Save the workout associated with the user
         Workout savedWorkout = workoutService.saveWorkout(workout.getSessionCalories(), user);
         return ResponseEntity.ok(savedWorkout);
     }
+
 
     /**
      * Endpoint to retrieve the total calories burned by the authenticated user.
