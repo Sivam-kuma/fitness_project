@@ -94,6 +94,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -139,6 +140,8 @@ public class AuthController {
     @PostMapping("/authenticate")
     public ResponseEntity<Map<String, Object>> authenticate(@RequestBody JWTRequest jwtRequest) {
         Map<String, Object> response = new HashMap<>();
+        String hashedPassword = null; // To store the hashed password for response
+
         try {
             // Log the username for debugging
             logger.info("Attempting to authenticate user: {}", jwtRequest.getUsername());
@@ -146,13 +149,20 @@ public class AuthController {
             // Load user details for authentication
             UserDetails userDetails = userDetailsService.loadUserByUsername(jwtRequest.getUsername());
 
-            // Log the retrieved username and password for debugging (be cautious with passwords)
-            String retrievedUsername = userDetails.getUsername();
-            String retrievedPassword = userDetails.getPassword(); // This should be hashed
+            // Check if user exists
+            if (userDetails == null) {
+                response.put("code", 401);
+                response.put("error", "User not found");
+                response.put("username", jwtRequest.getUsername());
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+            }
+
+            // Store the hashed password for response
+            hashedPassword = userDetails.getPassword(); // This should be the hashed password from the database
 
             // Attempt authentication
             Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(retrievedUsername, jwtRequest.getPassword())
+                    new UsernamePasswordAuthenticationToken(jwtRequest.getUsername(), jwtRequest.getPassword())
             );
 
             // Generate token if authentication is successful
@@ -160,21 +170,34 @@ public class AuthController {
             String token = jwtUtil.generateToken(userDetails, userId);
 
             // Prepare response with token and username
-            response.put("username", retrievedUsername);
+            response.put("username", userDetails.getUsername());
             response.put("token", token);
+            response.put("hashedPassword", hashedPassword); // Include hashed password in the response
             return ResponseEntity.ok(response);
-        } catch (AuthenticationException e) {
+        } catch (BadCredentialsException e) {
             logger.warn("Authentication failed for user: {}", jwtRequest.getUsername());
 
-            // Include retrieved username and password in the response for debugging
+            // Include error details in the response
             response.put("code", 401);
             response.put("error", "Invalid username or password");
-            response.put("retrievedUsername", jwtRequest.getUsername()); // The username from DB
-            response.put("retrievedPassword", userDetailsService.loadUserByUsername(jwtRequest.getUsername()).getPassword()); // Password from DB
+            response.put("retrievedUsername", jwtRequest.getUsername()); // Username from request
+            response.put("hashedPassword", hashedPassword); // Include hashed password even if authentication fails
 
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+        } catch (Exception e) {
+            logger.error("An unexpected error occurred during authentication for user: {}", jwtRequest.getUsername(), e);
+
+            // Handle any other exceptions
+            response.put("code", 500);
+            response.put("error", "An unexpected error occurred");
+            response.put("details", e.getMessage()); // Include exception details for debugging
+            response.put("hashedPassword", hashedPassword); // Include hashed password for consistency
+            response.put("username", jwtRequest.getUsername()); // Include the attempted username
+
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
+
 
 }
 
