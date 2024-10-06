@@ -19,8 +19,8 @@ public class CustomUserDetails implements UserDetails {
         return user;
     }
 
-    public Long getUserId() {
-        return user.getUserId(); // Accessing the userId from the User entity
+    public Long getId() {
+        return user.getId(); // Accessing the userId from the User entity
     }
 
     @Override

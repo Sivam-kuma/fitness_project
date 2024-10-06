@@ -141,7 +141,7 @@ public class JwtUtil {
     // Validate token
     public Boolean validateToken(String token, UserDetails userDetails) {
         final Long userIdFromToken = Long.valueOf(extractSubject(token));
-        return (userIdFromToken.equals(((CustomUserDetails) userDetails).getUser().getUserId()) && !isTokenExpired(token));
+        return (userIdFromToken.equals(((CustomUserDetails) userDetails).getUser().getId()) && !isTokenExpired(token));
     }
 
     // Check if the token has expired

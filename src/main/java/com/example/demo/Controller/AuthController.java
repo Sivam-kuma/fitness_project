@@ -166,7 +166,7 @@ public class AuthController {
             );
 
             // Generate token if authentication is successful
-            Long userId = ((CustomUserDetails) userDetails).getUser().getUserId(); // Ensure you're calling getId() correctly
+            Long userId = ((CustomUserDetails) userDetails).getUser().getId(); // Ensure you're calling getId() correctly
             String token = jwtUtil.generateToken(userDetails, userId);
 
             // Prepare response with token and username
