@@ -4,6 +4,7 @@ import com.example.demo.Entity.JWTRequest;
 import com.example.demo.Entity.JWTResponse;
 import com.example.demo.Entity.User;
 import com.example.demo.Services.UserDetailsServiceImpl;
+import com.example.demo.security.CustomUserDetails;
 import com.example.demo.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @RestController
 @CrossOrigin(origins = "https://fitnessproject-production.up.railway.app")
@@ -63,7 +66,8 @@ public ResponseEntity<?> authenticate(@RequestBody JWTRequest jwtRequest) {
         );
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(jwtRequest.getUsername());
-        String token = jwtUtil.generateToken(userDetails);
+        Long userId = ((CustomUserDetails) userDetails).getUser().getId();
+        String token = jwtUtil.generateToken(userDetails ,userId);
 
         return ResponseEntity.ok(new JWTResponse(jwtRequest.getUsername(), token));
 
