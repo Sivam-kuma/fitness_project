@@ -125,6 +125,7 @@ public class AuthController {
     public ResponseEntity<Map<String, String>> registerUser(@RequestBody User user) {
         Map<String, String> response = new HashMap<>();
         try {
+            // Save the user using the UserDetailsService
             userDetailsService.saveUser(user);
             response.put("message", "User registered successfully");
             return ResponseEntity.ok(response);
@@ -139,14 +140,17 @@ public class AuthController {
     public ResponseEntity<Map<String, Object>> authenticate(@RequestBody JWTRequest jwtRequest) {
         Map<String, Object> response = new HashMap<>();
         try {
+            // Authenticate the user
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(jwtRequest.getUsername(), jwtRequest.getPassword())
             );
 
+            // Load user details for JWT generation
             UserDetails userDetails = userDetailsService.loadUserByUsername(jwtRequest.getUsername());
-            Long userId = ((CustomUserDetails) userDetails).getUser().getId();
+            Long userId = ((CustomUserDetails) userDetails).getUserId();
             String token = jwtUtil.generateToken(userDetails, userId);
 
+            // Prepare response with token and username
             response.put("username", jwtRequest.getUsername());
             response.put("token", token);
             return ResponseEntity.ok(response);

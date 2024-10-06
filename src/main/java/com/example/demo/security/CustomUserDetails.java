@@ -19,6 +19,10 @@ public class CustomUserDetails implements UserDetails {
         return user;
     }
 
+    public Long getUserId() {
+        return user.getUserId(); // Accessing the userId from the User entity
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         // Return the user's authorities/roles

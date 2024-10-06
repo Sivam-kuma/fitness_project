@@ -130,7 +130,29 @@ public class JwtUtil {
 
     // Extract userId from the token
     public Long extractUserId(String token) {
-        return Long.valueOf(extractUsername(token)); // UserId is stored as the subject
+        return Long.valueOf(extractSubject(token)); // UserId is stored as the subject
+    }
+
+    // Extract subject (userId) from the token
+    public String extractSubject(String token) {
+        return getClaimFromToken(token, Claims::getSubject);
+    }
+
+    // Validate token
+    public Boolean validateToken(String token, UserDetails userDetails) {
+        final Long userIdFromToken = Long.valueOf(extractSubject(token));
+        return (userIdFromToken.equals(((CustomUserDetails) userDetails).getUser().getUserId()) && !isTokenExpired(token));
+    }
+
+    // Check if the token has expired
+    private Boolean isTokenExpired(String token) {
+        final Date expirationDate = extractExpiration(token);
+        return expirationDate.before(new Date());
+    }
+
+    // Extract expiration date from token
+    public Date extractExpiration(String token) {
+        return getClaimFromToken(token, Claims::getExpiration);
     }
 
     // Utility method to get claims from the token
@@ -142,27 +164,5 @@ public class JwtUtil {
     // Extract all claims from the token
     private Claims extractAllClaims(String token) {
         return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
-    }
-
-    // Extract subject (userId) from the token
-    public String extractUsername(String token) {
-        return getClaimFromToken(token, Claims::getSubject);
-    }
-
-    // Validate token
-    public Boolean validateToken(String token, UserDetails userDetails) {
-        final Long userIdFromToken = Long.valueOf(extractUsername(token));
-        return (userIdFromToken.equals(((CustomUserDetails) userDetails).getUser().getId()) && !isTokenExpired(token));
-    }
-
-    // Check if the token has expired
-    private Boolean isTokenExpired(String token) {
-        final Date expiration = extractExpiration(token);
-        return expiration.before(new Date());
-    }
-
-    // Extract expiration date from token
-    public Date extractExpiration(String token) {
-        return getClaimFromToken(token, Claims::getExpiration);
     }
 }
