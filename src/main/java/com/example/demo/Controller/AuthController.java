@@ -140,6 +140,10 @@ public class AuthController {
     public ResponseEntity<Map<String, Object>> authenticate(@RequestBody JWTRequest jwtRequest) {
         Map<String, Object> response = new HashMap<>();
         try {
+            // Log the username and password for debugging
+            logger.info("Attempting to authenticate user: {}", jwtRequest.getUsername());
+            logger.info("Password entered: {}", jwtRequest.getPassword()); // Caution: avoid logging passwords in production!
+
             // Authenticate the user
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(jwtRequest.getUsername(), jwtRequest.getPassword())
@@ -147,7 +151,7 @@ public class AuthController {
 
             // Load user details for JWT generation
             UserDetails userDetails = userDetailsService.loadUserByUsername(jwtRequest.getUsername());
-            Long userId = ((CustomUserDetails) userDetails).getUserId();
+            Long userId = ((CustomUserDetails) userDetails).getUser().getUserId(); // Ensure you're calling getId() correctly
             String token = jwtUtil.generateToken(userDetails, userId);
 
             // Prepare response with token and username
