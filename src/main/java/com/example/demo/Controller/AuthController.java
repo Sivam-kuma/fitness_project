@@ -140,31 +140,42 @@ public class AuthController {
     public ResponseEntity<Map<String, Object>> authenticate(@RequestBody JWTRequest jwtRequest) {
         Map<String, Object> response = new HashMap<>();
         try {
-            // Log the username and password for debugging
+            // Log the username for debugging
             logger.info("Attempting to authenticate user: {}", jwtRequest.getUsername());
-            logger.info("Password entered: {}", jwtRequest.getPassword()); // Caution: avoid logging passwords in production!
 
-            // Authenticate the user
+            // Load user details for authentication
+            UserDetails userDetails = userDetailsService.loadUserByUsername(jwtRequest.getUsername());
+
+            // Log the retrieved username and password for debugging (be cautious with passwords)
+            String retrievedUsername = userDetails.getUsername();
+            String retrievedPassword = userDetails.getPassword(); // This should be hashed
+
+            // Attempt authentication
             Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(jwtRequest.getUsername(), jwtRequest.getPassword())
+                    new UsernamePasswordAuthenticationToken(retrievedUsername, jwtRequest.getPassword())
             );
 
-            // Load user details for JWT generation
-            UserDetails userDetails = userDetailsService.loadUserByUsername(jwtRequest.getUsername());
+            // Generate token if authentication is successful
             Long userId = ((CustomUserDetails) userDetails).getUser().getUserId(); // Ensure you're calling getId() correctly
             String token = jwtUtil.generateToken(userDetails, userId);
 
             // Prepare response with token and username
-            response.put("username", jwtRequest.getUsername());
+            response.put("username", retrievedUsername);
             response.put("token", token);
             return ResponseEntity.ok(response);
         } catch (AuthenticationException e) {
             logger.warn("Authentication failed for user: {}", jwtRequest.getUsername());
+
+            // Include retrieved username and password in the response for debugging
             response.put("code", 401);
             response.put("error", "Invalid username or password");
+            response.put("retrievedUsername", jwtRequest.getUsername()); // The username from DB
+            response.put("retrievedPassword", userDetailsService.loadUserByUsername(jwtRequest.getUsername()).getPassword()); // Password from DB
+
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
         }
     }
+
 }
 
 
