@@ -130,7 +130,7 @@ public class JwtUtil {
 
     // Extract userId from the token
     public Long extractUserId(String token) {
-        return Long.valueOf(extractUsername(token)); // UserId is stored as the subject, so extract it from there
+        return Long.valueOf(extractUsername(token)); // UserId is stored as the subject
     }
 
     // Utility method to get claims from the token
@@ -166,5 +166,3 @@ public class JwtUtil {
         return getClaimFromToken(token, Claims::getExpiration);
     }
 }
-
-
