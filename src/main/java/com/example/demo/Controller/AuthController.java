@@ -87,6 +87,7 @@ package com.example.demo.Controller;
 import com.example.demo.Entity.JWTRequest;
 import com.example.demo.Entity.JWTResponse;
 import com.example.demo.Entity.User;
+import com.example.demo.Services.CustomUserDetailsService;
 import com.example.demo.Services.UserDetailsServiceImpl;
 import com.example.demo.security.CustomUserDetails;
 import com.example.demo.util.JwtUtil;
@@ -116,8 +117,11 @@ public class AuthController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+//    @Autowired
+//    private UserDetailsServiceImpl userDetailsService;
+
     @Autowired
-    private UserDetailsServiceImpl userDetailsService;
+    private CustomUserDetailsService userDetailsService;
 
     @Autowired
     private JwtUtil jwtUtil;

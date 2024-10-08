@@ -63,6 +63,7 @@
 //}
 package com.example.demo.config;
 
+import com.example.demo.Services.CustomUserDetailsService;
 import com.example.demo.Services.UserDetailsServiceImpl;
 import com.example.demo.jwt.JWTAuthenticationFilter;
 import com.example.demo.jwt.JwtAuthenticationEntryPoint;
@@ -92,8 +93,11 @@ public class SecurityConfig {
     @Autowired
     private JWTAuthenticationFilter jwtAuthenticationFilter;
 
-    @Autowired
-    private UserDetailsServiceImpl userDetailsService;
+//    @Autowired
+//    private UserDetailsServiceImpl userDetailsService;
+@Autowired
+private CustomUserDetailsService userDetailsService;
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {

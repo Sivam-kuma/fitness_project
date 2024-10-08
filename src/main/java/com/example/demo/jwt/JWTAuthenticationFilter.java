@@ -57,6 +57,7 @@
 
 package com.example.demo.jwt;
 
+import com.example.demo.Services.CustomUserDetailsService;
 import com.example.demo.Services.UserDetailsServiceImpl;
 import com.example.demo.util.JwtUtil;
 import jakarta.servlet.FilterChain;
@@ -79,8 +80,10 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     private JwtUtil jwtUtil;
 
-    @Autowired
-    private UserDetailsServiceImpl userDetailsService;
+//    @Autowired
+//    private UserDetailsServiceImpl userDetailsService;
+@Autowired
+private CustomUserDetailsService userDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
