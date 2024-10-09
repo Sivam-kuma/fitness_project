@@ -66,23 +66,29 @@ public class WorkoutController {
     @PostMapping("/add")
     public ResponseEntity<?> addWorkout(@RequestBody Workout workout, Authentication authentication) {
         Map<String, Object> response = new HashMap<>();
+        String userIdStr = null; // Initialize userIdStr outside the try block to ensure it's accessible in error cases
+
         try {
+            // Check if authentication exists
             if (authentication == null) {
                 response.put("message", "Unauthorized: Missing or invalid token");
+                response.put("userId", userIdStr); // Include userId (even if null)
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
             }
 
             // Extract userId from the token
-            String userIdStr = authentication.getName(); // Assuming `authentication.getName()` returns the userId
+            userIdStr = authentication.getName(); // Assuming `authentication.getName()` returns the userId
             response.put("userId", userIdStr);
-            System.out.println("Retrieved userId from authentication: " + userIdStr); // Log the userId
+            System.out.println("Retrieved userId from authentication: " + userIdStr);
 
-            // Convert the userId to Long type
+            // Try converting the userId to Long
             Long userId;
             try {
                 userId = Long.parseLong(userIdStr);
+                response.put("userIdParsed", userId); // Include parsed userId
             } catch (NumberFormatException e) {
                 response.put("message", "Invalid userId format in token");
+                response.put("error", e.getMessage());
                 return ResponseEntity.badRequest().body(response);
             }
 
@@ -94,25 +100,27 @@ public class WorkoutController {
             }
 
             response.put("user", user.getUsername());
-            System.out.println("User found: " + user.getUsername()); // Log the found user
 
-            // Validate the workout data
+            // Validate workout data
             if (workout == null || workout.getSessionCalories() <= 0) {
                 response.put("message", "Invalid workout data");
+                response.put("workoutData", workout); // Include workout data
                 return ResponseEntity.badRequest().body(response);
             }
 
-            // Save the workout
+            // Save the workout with the associated user
             Workout savedWorkout = workoutService.saveWorkout(workout.getSessionCalories(), user);
             response.put("message", "Workout saved successfully");
-            response.put("workout", savedWorkout);
+            response.put("savedWorkout", savedWorkout); // Include saved workout
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             e.printStackTrace(); // Log the full exception for debugging
             response.put("error", "Internal server error: " + e.getMessage());
+            response.put("userId", userIdStr); // Include userId even in case of error
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
+
 
 
     /**
