@@ -1,7 +1,9 @@
 package com.example.demo.config;
 
 import com.example.demo.Entity.User;
+import com.example.demo.Entity.Workout;
 import com.example.demo.Repository.UserRepository;
+import com.example.demo.Repository.WorkoutRepository;
 import com.example.demo.Services.WorkoutService;
  // Import UserService to get users
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,16 +16,18 @@ import java.util.List;
 public class ScheduledTasks {
 
     @Autowired
-    private WorkoutService workoutService;
+    private WorkoutRepository workoutRepository;
+
 
     @Autowired
     private UserRepository userService;
-    @Scheduled(cron = "0 0 0 * * ?") // This will run at midnight every day
-    public void resetCalories() {
-        List<User> users = userService.findAll(); // Fetch all users
-        for (User user : users) {
-            workoutService.resetTotalCalories(user); // Reset calories for each user
+    @Scheduled(cron = "0 0 0 * * ?") // Cron expression for midnight every day
+    public void resetDailyCalories() {
+        Iterable<Workout> workouts = workoutRepository.findAll();
+        for (Workout workout : workouts) {
+            workout.setSessionCalories(0.0); // Reset session calories to 0
+            workoutRepository.save(workout); // Save the updated workout
         }
-        System.out.println("Total calories reset to 0 at midnight for all users.");
+        System.out.println("All session calories reset to 0 at midnight.");
     }
 }
