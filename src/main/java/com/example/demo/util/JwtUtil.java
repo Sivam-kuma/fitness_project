@@ -100,6 +100,7 @@ package com.example.demo.util;
 
 import com.example.demo.security.CustomUserDetails;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
@@ -130,8 +131,18 @@ public class JwtUtil {
 
     // Extract userId from the token
     public Long extractUserId(String token) {
-        return Long.valueOf(extractSubject(token)); // UserId is stored as the subject
+        try {
+            Claims claims = Jwts.parser()
+                    .setSigningKey(secret)
+                    .parseClaimsJws(token)
+                    .getBody();
+            return Long.valueOf(claims.getSubject());
+        } catch (JwtException e) {
+            // Log and handle invalid token error
+            return null; // or throw a custom exception
+        }
     }
+
 
     // Extract subject (userId) from the token
     public String extractSubject(String token) {
