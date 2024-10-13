@@ -172,6 +172,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin(origins = "https://fitnessproject-production.up.railway.app")
 @RequestMapping("/api/workouts")
 public class WorkoutController {
 

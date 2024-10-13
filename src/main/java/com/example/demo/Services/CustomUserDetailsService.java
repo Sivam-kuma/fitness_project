@@ -50,4 +50,7 @@ public class CustomUserDetailsService implements UserDetailsService { // Impleme
                 user.getPassword(),
                 Collections.singleton(new SimpleGrantedAuthority("USER")));
     }
+
+
+
 }
