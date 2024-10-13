@@ -141,6 +141,11 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     private CustomUserDetailsService userDetailsService;
 
+    // Method to sanitize log messages to prevent CRLF injection
+    private String sanitizeHeaderValue(String value) {
+        return value.replaceAll("[\r\n]", " ");
+    }
+
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
@@ -164,7 +169,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
             } catch (Exception e) {
                 logMessages.append("[Filter] Error extracting userId: ").append(e.getMessage()).append("\n");
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                response.addHeader("X-Filter-Log", logMessages.toString()); // Add log to headers
+                response.addHeader("X-Filter-Log", sanitizeHeaderValue(logMessages.toString())); // Sanitize header value
                 return;
             }
         } else {
@@ -185,25 +190,24 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
                 } else {
                     logMessages.append("[Filter] Invalid JWT token.\n");
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                    response.addHeader("X-Filter-Log", logMessages.toString());
+                    response.addHeader("X-Filter-Log", sanitizeHeaderValue(logMessages.toString())); // Sanitize
                     return;
                 }
             } catch (Exception e) {
                 logMessages.append("[Filter] Error loading UserDetails: ").append(e.getMessage()).append("\n");
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                response.addHeader("X-Filter-Log", logMessages.toString());
+                response.addHeader("X-Filter-Log", sanitizeHeaderValue(logMessages.toString())); // Sanitize
                 return;
             }
         } else {
             logMessages.append("[Filter] User already authenticated or no valid token found.\n");
         }
 
-        // Continue the filter chain and let the response proceed
-        request.setAttribute("filterLogs", logMessages.toString()); // Attach logs to request
+        // Attach sanitized logs to request for further use if needed
+        request.setAttribute("filterLogs", logMessages.toString());
         chain.doFilter(request, response);
     }
-
-
 }
+
 
 
