@@ -163,8 +163,8 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
                 logMessages.append("[Filter] Extracted UserId: ").append(userId).append("\n");
             } catch (Exception e) {
                 logMessages.append("[Filter] Error extracting userId: ").append(e.getMessage()).append("\n");
-                response.setStatus(HttpServletResponse.SC_BAD_REQUEST); // 400 Bad Request
-                response.getWriter().write(logMessages.toString());
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.addHeader("X-Filter-Log", logMessages.toString()); // Add log to headers
                 return;
             }
         } else {
@@ -184,24 +184,25 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                 } else {
                     logMessages.append("[Filter] Invalid JWT token.\n");
-                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401 Unauthorized
-                    response.getWriter().write(logMessages.toString());
+                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                    response.addHeader("X-Filter-Log", logMessages.toString());
                     return;
                 }
             } catch (Exception e) {
                 logMessages.append("[Filter] Error loading UserDetails: ").append(e.getMessage()).append("\n");
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401 Unauthorized
-                response.getWriter().write(logMessages.toString());
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.addHeader("X-Filter-Log", logMessages.toString());
                 return;
             }
         } else {
             logMessages.append("[Filter] User already authenticated or no valid token found.\n");
         }
 
-        // Continue with the filter chain and print logs at the end if successful
-        response.getWriter().write(logMessages.toString());
+        // Continue the filter chain and let the response proceed
+        request.setAttribute("filterLogs", logMessages.toString()); // Attach logs to request
         chain.doFilter(request, response);
     }
+
 
 }
 
