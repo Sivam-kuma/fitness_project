@@ -23,32 +23,50 @@ public class CustomUserDetailsService implements UserDetailsService { // Impleme
     @Lazy
     private PasswordEncoder passwordEncoder;
 
+//    @Override
+//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+//        // Fetch user from the database by username
+//        User user = userRepository.findByUsername(username);
+//
+//        // If the user is not found, throw an exception
+//        if (user == null) {
+//            throw new UsernameNotFoundException("User not found with username: " + username);
+//        }
+//
+//        // Return an instance of CustomUserDetails containing the user
+//        return new CustomUserDetails(user);
+//    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // Fetch user from the database by username
         User user = userRepository.findByUsername(username);
 
-        // If the user is not found, throw an exception
         if (user == null) {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }
 
-        // Return an instance of CustomUserDetails containing the user
-        return new CustomUserDetails(user);
+        return new CustomUserDetails(user); // Ensure this returns your custom class
     }
+
 
     public User saveUser(User user) {
         // Encrypt the password before saving
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
-    public UserDetails loadUserById(Long userId) throws UsernameNotFoundException {
+//    public UserDetails loadUserById(Long userId) throws UsernameNotFoundException {
+//        User user = userRepository.findById(userId)
+//                .orElseThrow(() -> new UsernameNotFoundException("User not found with ID: " + userId));
+//        return new org.springframework.security.core.userdetails.User(
+//                user.getUsername(),
+//                user.getPassword(),
+//                Collections.singleton(new SimpleGrantedAuthority("USER")));
+//    }
+
+    public CustomUserDetails loadUserById(Long userId) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with ID: " + userId));
-        return new org.springframework.security.core.userdetails.User(
-                user.getUsername(),
-                user.getPassword(),
-                Collections.singleton(new SimpleGrantedAuthority("USER")));
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with id: " + userId));
+        return new CustomUserDetails(user); // Ensure this returns your custom class
     }
 
 
