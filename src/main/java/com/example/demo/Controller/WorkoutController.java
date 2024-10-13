@@ -221,11 +221,72 @@
 //}
 ///
 
+//package com.example.demo.Controller;
+//
+//import com.example.demo.Entity.Workout;
+//import com.example.demo.Services.WorkoutService;
+//import jakarta.servlet.http.HttpServletRequest;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.http.HttpStatus;
+//import org.springframework.http.ResponseEntity;
+//import org.springframework.web.bind.annotation.*;
+//
+//@RestController
+//@CrossOrigin(origins = "https://fitnessproject-production.up.railway.app")
+//@RequestMapping("/api/workouts")
+//public class WorkoutController {
+//
+//    @Autowired
+//    private WorkoutService workoutService;
+//
+//    // Save or update workout with sessionCalories from the request body
+//    @PostMapping("/save")
+//    public ResponseEntity<?> saveOrUpdateWorkout(
+//            @RequestBody WorkoutRequest workoutRequest, // Receive JSON in request body
+//            HttpServletRequest request) {
+//        try {
+//            Workout workout = workoutService.saveOrUpdateWorkout(
+//                    workoutRequest.getSessionCalories(), request);
+//            return ResponseEntity.ok(workout); // 200 OK with workout data
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                    .body("Error saving/updating workout: " + e.getMessage());
+//        }
+//    }
+//
+//    // Get the workout data for the logged-in user
+//    @GetMapping
+//    public ResponseEntity<?> getWorkout(HttpServletRequest request) {
+//        try {
+//            Workout workout = workoutService.getWorkout(request);
+//            return ResponseEntity.ok(workout); // 200 OK with workout data
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                    .body("Error fetching workout: " + e.getMessage());
+//        }
+//    }
+//}
+//
+//// DTO class to receive sessionCalories in JSON request body
+//class WorkoutRequest {
+//    private double sessionCalories;
+//
+//    // Getter and Setter
+//    public double getSessionCalories() {
+//        return sessionCalories;
+//    }
+//
+//    public void setSessionCalories(double sessionCalories) {
+//        this.sessionCalories = sessionCalories;
+//    }
+//}
+
+///
+
 package com.example.demo.Controller;
 
 import com.example.demo.Entity.Workout;
 import com.example.demo.Services.WorkoutService;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -239,45 +300,28 @@ public class WorkoutController {
     @Autowired
     private WorkoutService workoutService;
 
-    // Save or update workout with sessionCalories from the request body
+    // Save or update workout with sessionCalories and userId from the request body
     @PostMapping("/save")
-    public ResponseEntity<?> saveOrUpdateWorkout(
-            @RequestBody WorkoutRequest workoutRequest, // Receive JSON in request body
-            HttpServletRequest request) {
+    public ResponseEntity<?> saveOrUpdateWorkout(@RequestBody Workout workout) {
         try {
-            Workout workout = workoutService.saveOrUpdateWorkout(
-                    workoutRequest.getSessionCalories(), request);
-            return ResponseEntity.ok(workout); // 200 OK with workout data
+            Workout savedWorkout = workoutService.saveOrUpdateWorkout(workout);
+            return ResponseEntity.ok(savedWorkout); // 200 OK with workout data
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error saving/updating workout: " + e.getMessage());
         }
     }
 
-    // Get the workout data for the logged-in user
-    @GetMapping
-    public ResponseEntity<?> getWorkout(HttpServletRequest request) {
+    // Get the workout data for the specified userId
+    @GetMapping("/{userId}")
+    public ResponseEntity<?> getWorkout(@PathVariable Long userId) {
         try {
-            Workout workout = workoutService.getWorkout(request);
+            Workout workout = workoutService.getWorkout(userId);
             return ResponseEntity.ok(workout); // 200 OK with workout data
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error fetching workout: " + e.getMessage());
         }
-    }
-}
-
-// DTO class to receive sessionCalories in JSON request body
-class WorkoutRequest {
-    private double sessionCalories;
-
-    // Getter and Setter
-    public double getSessionCalories() {
-        return sessionCalories;
-    }
-
-    public void setSessionCalories(double sessionCalories) {
-        this.sessionCalories = sessionCalories;
     }
 }
 
