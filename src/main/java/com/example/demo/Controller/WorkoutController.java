@@ -161,6 +161,66 @@
 //    }
 //}
 
+//package com.example.demo.Controller;
+//
+//import com.example.demo.Entity.Workout;
+//import com.example.demo.Services.WorkoutService;
+//import jakarta.servlet.http.HttpServletRequest;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.http.HttpStatus;
+//import org.springframework.http.ResponseEntity;
+//import org.springframework.web.bind.annotation.*;
+//
+//@RestController
+//@CrossOrigin(origins = "https://fitnessproject-production.up.railway.app")
+//@RequestMapping("/api/workouts")
+//public class WorkoutController {
+//
+//    @Autowired
+//    private WorkoutService workoutService;
+//
+//    // Save or update workout (accumulate sessionCalories)
+//    @PostMapping("/save")
+//    public ResponseEntity<?> saveOrUpdateWorkout(
+//            @RequestParam double sessionCalories,
+//            HttpServletRequest request) {
+//        try {
+//            Workout workout = workoutService.saveOrUpdateWorkout(sessionCalories, request);
+//            return ResponseEntity.ok(workout); // Return 200 OK with workout data
+//        } catch (Exception e) {
+//            // Debugging information in case of an error
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                    .body("Error saving/updating workout: " + e.getMessage());
+//        }
+//    }
+//
+//    // Get the workout data (total calories burned) for the logged-in user
+//    @GetMapping
+//    public ResponseEntity<?> getWorkout(HttpServletRequest request) {
+//        try {
+//            Workout workout = workoutService.getWorkout(request);
+//            if (workout != null) {
+//                return ResponseEntity.ok(workout); // 200 OK with workout data
+//            } else {
+//                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+//                        .body("Workout not found for the logged-in user.");
+//            }
+//        } catch (Exception e) {
+//            // Debugging information in case of an error
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                    .body("Error fetching workout: " + e.getMessage());
+//        }
+//    }
+//
+//    // Handle invalid request parameters gracefully
+//    @ExceptionHandler(IllegalArgumentException.class)
+//    public ResponseEntity<?> handleIllegalArgumentException(IllegalArgumentException e) {
+//        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+//                .body("Invalid input: " + e.getMessage());
+//    }
+//}
+///
+
 package com.example.demo.Controller;
 
 import com.example.demo.Entity.Workout;
@@ -179,44 +239,45 @@ public class WorkoutController {
     @Autowired
     private WorkoutService workoutService;
 
-    // Save or update workout (accumulate sessionCalories)
+    // Save or update workout with sessionCalories from the request body
     @PostMapping("/save")
     public ResponseEntity<?> saveOrUpdateWorkout(
-            @RequestParam double sessionCalories,
+            @RequestBody WorkoutRequest workoutRequest, // Receive JSON in request body
             HttpServletRequest request) {
         try {
-            Workout workout = workoutService.saveOrUpdateWorkout(sessionCalories, request);
-            return ResponseEntity.ok(workout); // Return 200 OK with workout data
+            Workout workout = workoutService.saveOrUpdateWorkout(
+                    workoutRequest.getSessionCalories(), request);
+            return ResponseEntity.ok(workout); // 200 OK with workout data
         } catch (Exception e) {
-            // Debugging information in case of an error
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error saving/updating workout: " + e.getMessage());
         }
     }
 
-    // Get the workout data (total calories burned) for the logged-in user
+    // Get the workout data for the logged-in user
     @GetMapping
     public ResponseEntity<?> getWorkout(HttpServletRequest request) {
         try {
             Workout workout = workoutService.getWorkout(request);
-            if (workout != null) {
-                return ResponseEntity.ok(workout); // 200 OK with workout data
-            } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body("Workout not found for the logged-in user.");
-            }
+            return ResponseEntity.ok(workout); // 200 OK with workout data
         } catch (Exception e) {
-            // Debugging information in case of an error
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error fetching workout: " + e.getMessage());
         }
     }
+}
 
-    // Handle invalid request parameters gracefully
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<?> handleIllegalArgumentException(IllegalArgumentException e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body("Invalid input: " + e.getMessage());
+// DTO class to receive sessionCalories in JSON request body
+class WorkoutRequest {
+    private double sessionCalories;
+
+    // Getter and Setter
+    public double getSessionCalories() {
+        return sessionCalories;
+    }
+
+    public void setSessionCalories(double sessionCalories) {
+        this.sessionCalories = sessionCalories;
     }
 }
 

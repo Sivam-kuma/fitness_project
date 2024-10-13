@@ -75,41 +75,36 @@ public class WorkoutService {
     private WorkoutRepository workoutRepository;
 
     @Autowired
-    private JwtUtil jwtUtil;
+    private JwtUtil jwtUtil; // Use JwtUtil to extract userId
 
     // Save or update workout data by adding new sessionCalories
     public Workout saveOrUpdateWorkout(double sessionCalories, HttpServletRequest request) {
-        Long userId = getUserIdFromToken(request); // Extract userId from JWT
+        Long userId = getUserIdFromToken(request); // Get userId from JWT token
 
-        // Check if the user already has an existing workout entry
         Optional<Workout> existingWorkout = workoutRepository.findByUserId(userId);
 
         Workout workout;
         if (existingWorkout.isPresent()) {
-            // If workout exists, add sessionCalories to the existing total
             workout = existingWorkout.get();
-            double updatedCalories = workout.getSessionCalories() + sessionCalories;
-            workout.setSessionCalories(updatedCalories);
+            workout.setSessionCalories(workout.getSessionCalories() + sessionCalories);
         } else {
-            // If no workout exists, create a new entry
             workout = new Workout(sessionCalories, userId);
         }
 
-        // Save the workout to the database
         return workoutRepository.save(workout);
     }
 
     // Fetch all workouts for the logged-in user
     public Workout getWorkout(HttpServletRequest request) {
-        Long userId = getUserIdFromToken(request); // Extract userId from JWT
+        Long userId = getUserIdFromToken(request);
         return workoutRepository.findByUserId(userId).orElse(new Workout(0.0, userId));
     }
 
-    // Helper method to extract userId from the JWT token
+    // Use JwtUtil to extract userId from JWT token in the Authorization header
     private Long getUserIdFromToken(HttpServletRequest request) {
         String authorizationHeader = request.getHeader("Authorization");
         String token = authorizationHeader.substring(7); // Remove "Bearer " prefix
-        return jwtUtil.extractUserId(token); // Extract userId from the token
+        return jwtUtil.extractUserId(token); // Extract userId using JwtUtil
     }
 }
 
