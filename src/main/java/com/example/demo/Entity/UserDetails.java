@@ -9,17 +9,17 @@ public class UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id",updatable = false, nullable = false)
     private long Id;
-    @Column(name="Categories",updatable = false,nullable = false)
+    @Column(name="categories",updatable = false,nullable = false)
     private String Categories;
-    @Column(name="Gender",updatable = false,nullable = false)
+    @Column(name="gender",updatable = false,nullable = false)
     private String Gender;
-    @Column(name="Equipment",updatable = false,nullable = false)
+    @Column(name="equipment",updatable = false,nullable = false)
     private String Equipment;
-    @Column(name="Age",updatable = false,nullable = false)
+    @Column(name="age",updatable = false,nullable = false)
     private float Age;
     @Column(name="weight",updatable = false,nullable = false)
     private float weight;
-    @Column(name="UserId",updatable = false,nullable = false)
+    @Column(name="userId",updatable = false,nullable = false)
     private long userId;
     public UserDetails() {
     }
