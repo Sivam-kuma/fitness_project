@@ -21,7 +21,7 @@ public class ScheduledTasks {
 
     @Autowired
     private UserRepository userService;
-    @Scheduled(cron = "0 0 0 * * ?") // Cron expression for midnight every day
+    @Scheduled(cron = "0 2 0 * * ?") // Cron expression for midnight every day
     public void resetDailyCalories() {
         Iterable<Workout> workouts = workoutRepository.findAll();
         for (Workout workout : workouts) {

@@ -17,16 +17,16 @@ public class UserDetailsService {
     public UserDetails saveUserDetails(UserDetails userDetails) throws UsernameNotFoundException {
         return userRepository.save(userDetails);
     }
-    public List<UserDetails> getUserDetails() throws UsernameNotFoundException {
-        return userRepository.findAll();
+    public List<UserDetails> getUserDetails(Long userId) throws UsernameNotFoundException {
+        return userRepository.findByUserId(userId);
     }
-    public void deleteUserDetails(Long Id) throws UsernameNotFoundException {
-        userRepository.deleteById(Id);
+    public void deleteUserDetails(Long userId) throws UsernameNotFoundException {
+        userRepository.deleteByUserId(userId);
     }
-    public Optional<UserDetails> UpdateUserDetails(Long Id,UserDetails userDetails) throws UsernameNotFoundException {
-       Optional <UserDetails> getuserall=userRepository.findById( Id);
+    public Optional<UserDetails> UpdateUserDetails(Long userId,UserDetails userDetails) throws UsernameNotFoundException {
+       List<UserDetails> getuserall=userRepository.findByUserId(userId);
         if(getuserall!=null) {
-            UserDetails getuser=getuserall.get();
+            UserDetails getuser=getuserall.get(Math.toIntExact(userId));
             getuser.setCategories(userDetails.getCategories());
             getuser.setEquipment(userDetails.getEquipment());
             getuser.setGender(userDetails.getGender());
