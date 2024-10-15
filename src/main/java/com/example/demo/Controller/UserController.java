@@ -17,10 +17,13 @@ public class UserController {
 //    private UserDetailsRepository userRepository;
     @Autowired
     private UserDetailsService userDetailsService;
-    @PutMapping("/{userId}")
-    public ResponseEntity<UserDetails> updateUser(@PathVariable Long userId, @RequestBody UserDetails userDetails) {
-        return userDetailsService.UpdateUserDetails(userId ,userDetails ).map(updateUser->ResponseEntity.ok().body(updateUser)).orElse(ResponseEntity.notFound().build());
+    @PutMapping("/{id}")
+    public ResponseEntity<UserDetails> updateUser(@PathVariable Long id, @RequestBody UserDetails userDetails) {
+        return userDetailsService.UpdateUserDetails(id, userDetails)
+                .map(updateUser -> ResponseEntity.ok().body(updateUser))
+                .orElse(ResponseEntity.notFound().build());
     }
+
     @PostMapping("/create")
     public ResponseEntity<UserDetails> createUser(@RequestBody UserDetails userDetails) {
         UserDetails CreateUserDetails = userDetailsService.saveUserDetails(userDetails);

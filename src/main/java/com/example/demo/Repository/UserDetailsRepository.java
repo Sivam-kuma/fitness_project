@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface UserDetailsRepository extends JpaRepository<UserDetails, Long> {
     @Query("SELECT u FROM UserDetails u WHERE u.userId = :userId")
     Optional<UserDetails> findByUserId(@Param("userId") Long userId);
-
+    Optional<UserDetails> findById(Long id);
     void deleteByUserId(Long userId);
 //    UserDetails findById(Long Id);
 }
