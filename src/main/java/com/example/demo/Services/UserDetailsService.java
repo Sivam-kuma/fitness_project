@@ -26,9 +26,9 @@ public class UserDetailsService {
         userRepository.deleteByUserId(userId);
     }
     @Transactional
-    public Optional<UserDetails> UpdateUserDetails(Long id, UserDetails userDetails) throws UsernameNotFoundException {
+    public Optional<UserDetails> UpdateUserDetails(Long userId, UserDetails userDetails) throws UsernameNotFoundException {
         // Fetch the existing user details by id
-        Optional<UserDetails> existingUser = userRepository.findById(id);
+        Optional<UserDetails> existingUser = userRepository.findById(userId);
 
         // Log the result of the findById query
         if (existingUser.isPresent()) {
@@ -50,7 +50,7 @@ public class UserDetailsService {
             return Optional.of(savedUser);
         } else {
             // If no user found, log that and return Optional.empty()
-            System.out.println("No user found with id: " + id);
+            System.out.println("No user found with id: " + userId);
             return Optional.empty();
         }
     }

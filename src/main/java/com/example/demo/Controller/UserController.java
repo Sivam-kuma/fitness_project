@@ -17,9 +17,9 @@ public class UserController {
 //    private UserDetailsRepository userRepository;
     @Autowired
     private UserDetailsService userDetailsService;
-    @PutMapping("/{id}")
-    public ResponseEntity<UserDetails> updateUser(@PathVariable Long id, @RequestBody UserDetails userDetails) {
-        return userDetailsService.UpdateUserDetails(id, userDetails)
+    @PutMapping("/{userId}")
+    public ResponseEntity<UserDetails> updateUser(@PathVariable Long userId, @RequestBody UserDetails userDetails) {
+        return userDetailsService.UpdateUserDetails(userId, userDetails)
                 .map(updateUser -> ResponseEntity.ok().body(updateUser))
                 .orElse(ResponseEntity.notFound().build());
     }
