@@ -3,6 +3,7 @@ package com.example.demo.Services;
 import com.example.demo.Entity.UserDetails;
 import com.example.demo.Repository.UserDetailsRepository;
 import com.example.demo.Repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+
 public class UserDetailsService {
     @Autowired
     private UserDetailsRepository userRepository;
@@ -23,6 +25,7 @@ public class UserDetailsService {
     public void deleteUserDetails(Long userId) throws UsernameNotFoundException {
         userRepository.deleteByUserId(userId);
     }
+    @Transactional
     public Optional<UserDetails> UpdateUserDetails(Long userId, UserDetails userDetails) throws UsernameNotFoundException {
         // Fetch the existing user details by userId
         Optional<UserDetails> existingUser = userRepository.findByUserId(userId);
