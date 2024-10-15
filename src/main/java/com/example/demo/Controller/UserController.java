@@ -1,15 +1,13 @@
 package com.example.demo.Controller;
 
 import com.example.demo.Entity.UserDetails;
-import com.example.demo.Repository.UserDetailsRepository;
-import com.example.demo.Repository.UserRepository;
 import com.example.demo.Services.UserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Optional;
 
 @Controller
 @CrossOrigin(origins = "https://fitnessproject-production.up.railway.app")
@@ -29,8 +27,8 @@ public class UserController {
         return ResponseEntity.ok().body(CreateUserDetails);
     }
     @GetMapping("/getAll/{userId}")
-    public ResponseEntity<List<UserDetails>> getAllUsers(@PathVariable Long userId) {
-        List<UserDetails> userDetailsList=userDetailsService.getUserDetails(userId);
+    public ResponseEntity<Optional<UserDetails>> getAllUsers(@PathVariable Long userId) {
+        Optional<UserDetails> userDetailsList=userDetailsService.getUserDetails(userId);
         return ResponseEntity.ok().body(userDetailsList);
     }
     @DeleteMapping("/delete/{userId}")

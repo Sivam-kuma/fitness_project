@@ -17,24 +17,27 @@ public class UserDetailsService {
     public UserDetails saveUserDetails(UserDetails userDetails) throws UsernameNotFoundException {
         return userRepository.save(userDetails);
     }
-    public List<UserDetails> getUserDetails(Long userId) throws UsernameNotFoundException {
+    public Optional<UserDetails> getUserDetails(Long userId) throws UsernameNotFoundException {
         return userRepository.findByUserId(userId);
     }
     public void deleteUserDetails(Long userId) throws UsernameNotFoundException {
         userRepository.deleteByUserId(userId);
     }
-    public Optional<UserDetails> UpdateUserDetails(Long userId,UserDetails userDetails) throws UsernameNotFoundException {
-       List<UserDetails> getuserall=userRepository.findByUserId(userId);
-        if(getuserall!=null) {
-            UserDetails getuser=getuserall.get(Math.toIntExact(userId));
-            getuser.setCategories(userDetails.getCategories());
-            getuser.setEquipment(userDetails.getEquipment());
-            getuser.setGender(userDetails.getGender());
-            getuser.setAge(userDetails.getAge());
-            getuser.setWeight(userDetails.getWeight());
-            return Optional.of(userRepository.save(getuser));
+    public Optional<UserDetails> UpdateUserDetails(Long userId, UserDetails userDetails) throws UsernameNotFoundException {
+        Optional<UserDetails> existingUser = userRepository.findByUserId(userId);
+
+        if (existingUser.isPresent()) {
+            UserDetails getUser = existingUser.get();
+            getUser.setCategories(userDetails.getCategories());
+            getUser.setEquipment(userDetails.getEquipment());
+            getUser.setGender(userDetails.getGender());
+            getUser.setAge(userDetails.getAge());
+            getUser.setWeight(userDetails.getWeight());
+
+            return Optional.of(userRepository.save(getUser));
         }
         return Optional.empty();
     }
+
 
 }
