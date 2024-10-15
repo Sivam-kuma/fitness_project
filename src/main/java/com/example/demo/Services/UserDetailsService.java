@@ -43,7 +43,8 @@ public class UserDetailsService {
             getUser.setWeight(userDetails.getWeight());
 
             // Save the updated user details and log the result
-            UserDetails savedUser = userRepository.save(getUser);
+            UserDetails savedUser = userRepository.saveAndFlush(getUser);
+
             System.out.println("Updated user saved: " + savedUser);  // Debugging log
 
             return Optional.of(savedUser);
