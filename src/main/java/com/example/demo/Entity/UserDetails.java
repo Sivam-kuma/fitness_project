@@ -7,19 +7,19 @@ import jakarta.persistence.*;
 public class UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id",updatable = false, nullable = false)
+    @Column(name="id",nullable = false)
     private long Id;
-    @Column(name="categories",updatable = true,nullable = false)
+    @Column(name="categories",nullable = false)
     private String Categories;
-    @Column(name="gender",updatable = true,nullable = false)
+    @Column(name="gender",nullable = false)
     private String Gender;
-    @Column(name="equipment",updatable = true,nullable = false)
+    @Column(name="equipment",nullable = false)
     private String Equipment;
-    @Column(name="age",updatable = true,nullable = false)
+    @Column(name="age",nullable = false)
     private float Age;
-    @Column(name="weight",updatable = true,nullable = false)
+    @Column(name="weight",nullable = false)
     private float weight;
-    @Column(name="userId",updatable = false,nullable = false)
+    @Column(name="userId",nullable = false)
     private long userId;
     public UserDetails() {
     }
