@@ -19,17 +19,20 @@ public class UserDetails {
     private float Age;
     @Column(name="weight",nullable = false)
     private float weight;
+    @Column(name = "height",nullable = false)
+    private float height;
     @Column(name="userId",nullable = false)
     private long userId;
     public UserDetails() {
     }
 
-    public UserDetails(long id, String categories, String gender, String equipment, float age, float weight,long userId) {
+    public UserDetails(long id, String categories, String gender, String equipment, float age, float height,float weight,long userId) {
         Id = id;
         Categories = categories;
         Gender = gender;
         Equipment = equipment;
         Age = age;
+        this.height = height;
         this.weight = weight;
        this.userId = userId;
 
@@ -61,6 +64,9 @@ public class UserDetails {
     public long getUserId() {
         return userId;
     }
+    public float getHeight() {
+        return height;
+    }
 
     public void setId(long id) {
         Id = id;
@@ -80,6 +86,10 @@ public class UserDetails {
 
     public void setAge(float age) {
         Age = age;
+    }
+
+    public void setHeight(float height) {
+        this.height = height;
     }
 
     public void setWeight(float weight) {

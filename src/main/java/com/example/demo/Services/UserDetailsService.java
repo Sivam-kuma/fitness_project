@@ -41,6 +41,7 @@ public class UserDetailsService {
             getUser.setGender(userDetails.getGender());
             getUser.setAge(userDetails.getAge());
             getUser.setWeight(userDetails.getWeight());
+            getUser.setHeight(userDetails.getHeight());
 
             // Save the updated user details and log the result
             UserDetails savedUser = userRepository.saveAndFlush(getUser);
