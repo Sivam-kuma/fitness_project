@@ -5,9 +5,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface FoodDetailRepository extends JpaRepository<FoodDetail, Long> {
    List<FoodDetail> findById(int id);
-   List<FoodDetail> findByUserId(int userId);
+   FoodDetail findByUserId(int userId);
 }

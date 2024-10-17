@@ -10,9 +10,9 @@ public class FoodDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
-    String carbohydrates;
-    String fat;
-    String protein;
+    Double carbohydrates;
+    Double fat;
+    Double protein;
     int userId;
 
     public int getUserId() {
@@ -30,15 +30,15 @@ public class FoodDetail {
         return id;
     }
 
-    public String getCarbohydrates() {
+    public Double getCarbohydrates() {
         return carbohydrates;
     }
 
-    public String getFat() {
+    public Double getFat() {
         return fat;
     }
 
-    public String getProtein() {
+    public Double getProtein() {
         return protein;
     }
 
@@ -46,15 +46,15 @@ public class FoodDetail {
         this.id = id;
     }
 
-    public void setCarbohydrates(String carbohydrates) {
+    public void setCarbohydrates(Double carbohydrates) {
         this.carbohydrates = carbohydrates;
     }
 
-    public void setFat(String fat) {
+    public void setFat(Double fat) {
         this.fat = fat;
     }
 
-    public void setProtein(String protein) {
+    public void setProtein(Double protein) {
         this.protein = protein;
     }
 }
