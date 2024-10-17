@@ -119,7 +119,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class WorkoutService {
+public class  WorkoutService {
 
     @Autowired
     private WorkoutRepository workoutRepository;
