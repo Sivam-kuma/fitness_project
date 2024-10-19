@@ -18,7 +18,7 @@ public class FeedbackController {
     @PostMapping("/save")
     public ResponseEntity<?> feedback(@RequestBody Feedback feedback) {
         try {
-            Feedback savedFeedback = feedbackService.save(feedback);
+            Feedback savedFeedback = feedbackService.saveData(feedback);
             return ResponseEntity.ok(savedFeedback);
         }
         catch (Exception e) {

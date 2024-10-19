@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 public class FeedbackService {
     @Autowired
     FeedbackRepository feedbackRepository;
-    public Feedback save(Feedback feedback) {
+    public Feedback saveData(Feedback feedback) {
         return feedbackRepository.save(feedback);
     }
 
