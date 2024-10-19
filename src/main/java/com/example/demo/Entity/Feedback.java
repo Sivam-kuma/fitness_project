@@ -30,6 +30,13 @@ public class Feedback {
         this.userId = userId;
     }
 
+    public Feedback(int id, long star, long userId, String feedback) {
+        this.id = id;
+        this.star = star;
+        this.userId = userId;
+        this.feedback = feedback;
+    }
+
     public void setFeedback(String feedback) {
         this.feedback = feedback;
     }
