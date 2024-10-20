@@ -8,7 +8,7 @@ import jakarta.persistence.Id;
 public class Feedback {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    int id;
     private long star;
     private long userId;
     private String feedback;
