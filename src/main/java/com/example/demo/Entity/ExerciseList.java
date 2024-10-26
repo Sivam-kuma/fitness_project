@@ -17,11 +17,11 @@ public class ExerciseList {
     public ExerciseList() {
     }
 
-    public ExerciseList(int id, String exerciseName, String exerciseDescription, String eqipmentType) {
+    public ExerciseList(int id, String exerciseName, String exerciseDescription, String equipmentType) {
         this.id = id;
         this.exerciseName = exerciseName;
         this.exerciseDescription = exerciseDescription;
-        this.equipmentType = eqipmentType;
+        this.equipmentType = equipmentType;
     }
 
     public int getId() {
@@ -36,7 +36,7 @@ public class ExerciseList {
         return exerciseDescription;
     }
 
-    public String getEqipmentType() {
+    public String getEquipmentType() {
         return equipmentType;
     }
 
@@ -52,8 +52,8 @@ public class ExerciseList {
         this.exerciseDescription = exerciseDescription;
     }
 
-    public void setEqipmentType(String eqipmentType) {
-        this.equipmentType = eqipmentType;
+    public void setEquipmentType(String equipmentType) {
+        this.equipmentType = equipmentType;
     }
 }
 
