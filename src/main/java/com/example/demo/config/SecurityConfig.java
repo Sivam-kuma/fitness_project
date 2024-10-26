@@ -123,6 +123,7 @@ private CustomUserDetailsService userDetailsService;
                         .requestMatchers("/api/auth/register").permitAll()  // Allow access to registration
                         .requestMatchers("/api/auth/authenticate").permitAll()
                         .requestMatchers("/api/health").permitAll()
+                        .requestMatchers("/api/app/getList/**").permitAll()
                        // Allow access to authentication
                         .anyRequest().authenticated())  // All other endpoints require authentication
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(jwtAuthenticationEntryPoint))
