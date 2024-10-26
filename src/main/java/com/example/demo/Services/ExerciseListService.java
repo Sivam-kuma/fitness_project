@@ -10,8 +10,8 @@ import java.util.List;
 @Service
 public class ExerciseListService {
     @Autowired  ExerciseListRepository exerciseListRepository;
-    public List<ExerciseList> getAllExerciseList(String equipmentType){
-         return exerciseListRepository.findByEquipmentType(equipmentType);
+    public List<ExerciseList> getAllExerciseList(String exerciseName){
+         return exerciseListRepository.findByExerciseName(exerciseName);
 
     }
 }

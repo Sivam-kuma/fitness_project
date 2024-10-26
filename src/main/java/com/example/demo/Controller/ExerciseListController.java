@@ -16,10 +16,10 @@ import java.util.List;
 @RequestMapping("/api/app")
 public class ExerciseListController {
     @Autowired  ExerciseListService exerciseListService;
-    @GetMapping("/getList/{equipmentType}")
-    public ResponseEntity<?> getList(@PathVariable String equipmentType) {
+    @GetMapping("/getList/{exerciseName}")
+    public ResponseEntity<?> getList(@PathVariable String exerciseName) {
         try {
-            List<ExerciseList> exerciseList = exerciseListService.getAllExerciseList(equipmentType);
+            List<ExerciseList> exerciseList = exerciseListService.getAllExerciseList(exerciseName);
             return ResponseEntity.ok(exerciseList);
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
