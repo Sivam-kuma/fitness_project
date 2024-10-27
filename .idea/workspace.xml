@@ -5,8 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="16e4f9ad-e765-47b8-8df6-384c1112361a" name="Changes" comment="changes done">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/Entity/DaysExercise.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -199,7 +200,7 @@
       <workItem from="1729714760177" duration="2272000" />
       <workItem from="1729781620981" duration="16261000" />
       <workItem from="1729936582996" duration="11085000" />
-      <workItem from="1730019555984" duration="1863000" />
+      <workItem from="1730019555984" duration="3588000" />
     </task>
     <task id="LOCAL-00001" summary="changes done">
       <option name="closed" value="true" />
