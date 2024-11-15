@@ -122,6 +122,7 @@ private CustomUserDetailsService userDetailsService;
                         .requestMatchers("/h2-console/**").permitAll()  // Allow access to H2 console
                         .requestMatchers("/api/auth/register").permitAll()  // Allow access to registration
                         .requestMatchers("/api/auth/authenticate").permitAll()
+                        .requestMatchers("/api/health").permitAll()
 
 
                        // Allow access to authentication

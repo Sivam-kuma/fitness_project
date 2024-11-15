@@ -5,8 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="16e4f9ad-e765-47b8-8df6-384c1112361a" name="Changes" comment="changes done">
-      <change afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.8/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.8/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
@@ -213,7 +211,9 @@
       <workItem from="1730577860385" duration="641000" />
       <workItem from="1730680633286" duration="3650000" />
       <workItem from="1730838246441" duration="4436000" />
-      <workItem from="1731099674552" duration="939000" />
+      <workItem from="1731099674552" duration="1724000" />
+      <workItem from="1731330914168" duration="252000" />
+      <workItem from="1731703220774" duration="1182000" />
     </task>
     <task id="LOCAL-00001" summary="changes done">
       <option name="closed" value="true" />
