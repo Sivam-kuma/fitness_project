@@ -142,10 +142,10 @@ public class AuthController {
     }
 
     @PutMapping("/update-password")
-    public ResponseEntity<Map<String, String>> updatePassword(@RequestParam String username, @RequestParam String newPassword) {
+    public ResponseEntity<Map<String, String>> updatePassword(@RequestParam String username, @RequestParam String password) {
         Map<String, String> response = new HashMap<>();
         try {
-            boolean isUpdated = userDetailsService.updatePassword(username, newPassword);
+            boolean isUpdated = userDetailsService.updatePassword(username, password);
 
             if (isUpdated) {
                 response.put("message", "Password updated successfully");
