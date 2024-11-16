@@ -70,5 +70,18 @@ public class CustomUserDetailsService implements UserDetailsService { // Impleme
     }
 
 
+    public boolean updatePassword(String username, String newPassword) {
+        // Find the user by username
+        User user = userRepository.findByUsername(username);
+
+        if (user != null) {
+            user.setPassword(newPassword); // Update the password
+            userRepository.save(user); // Save the updated user
+            return true; // Return true if password updated successfully
+        }
+        return false; // Return false if user not found
+    }
+
+
 
 }

@@ -141,6 +141,26 @@ public class AuthController {
         }
     }
 
+    @PutMapping("/update-password")
+    public ResponseEntity<Map<String, String>> updatePassword(@RequestParam String username, @RequestParam String newPassword) {
+        Map<String, String> response = new HashMap<>();
+        try {
+            boolean isUpdated = userDetailsService.updatePassword(username, newPassword);
+
+            if (isUpdated) {
+                response.put("message", "Password updated successfully");
+                return ResponseEntity.ok(response);
+            } else {
+                response.put("error", "User not found with username: " + username);
+                return ResponseEntity.badRequest().body(response);
+            }
+
+        } catch (Exception e) {
+            response.put("error", "Password update failed: " + e.getMessage());
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
+
     @PostMapping("/authenticate")
     public ResponseEntity<Map<String, Object>> authenticate(@RequestBody JWTRequest jwtRequest) {
         Map<String, Object> response = new HashMap<>();

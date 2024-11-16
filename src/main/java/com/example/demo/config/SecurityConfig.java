@@ -120,7 +120,8 @@ private CustomUserDetailsService userDetailsService;
                 .cors(cors -> cors.disable())  // Disable CORS if not needed
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/h2-console/**").permitAll()  // Allow access to H2 console
-                        .requestMatchers("/api/auth/register").permitAll()  // Allow access to registration
+                        .requestMatchers("/api/auth/register").permitAll()
+                        .requestMatchers("/api/auth/update-password").permitAll()// Allow access to registration
                         .requestMatchers("/api/auth/authenticate").permitAll()
                         .requestMatchers("/api/health").permitAll()
 
